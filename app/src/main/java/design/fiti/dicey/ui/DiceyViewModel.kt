@@ -25,10 +25,8 @@ class DiceyViewModel:ViewModel() {
             red = generateColorNumber(),
             green = generateColorNumber(),
             blue = generateColorNumber(),
-            1
         )
         setColor(color)
-
     }
 
     private fun generateColorNumber(): Int = Random.nextInt(0, 255)

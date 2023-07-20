@@ -1,6 +1,7 @@
 package design.fiti.dicey.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,20 +24,21 @@ import design.fiti.dicey.R
 fun ColorSelectScreen(
     modifier: Modifier = Modifier,
     randomizeColor: () -> Unit = {},
-    color: Color = Color.White
+    color: Color
 ) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            IconButton(onClick = { randomizeColor }) {
-                Box(
-                    modifier = Modifier
-                        .size(380.dp)
-                        .background(color = color)
-                )
-            }
+
+            Box(
+                modifier = Modifier
+                    .size(180.dp)
+                    .background(color = color)
+                    .clickable { randomizeColor() }
+            )
+
             Button(onClick = { /*TODO*/ }) {
                 Text(text = stringResource(R.string.next))
             }
@@ -48,5 +50,5 @@ fun ColorSelectScreen(
 @Preview
 @Composable
 fun ColorSelectScreenPrev() {
-    ColorSelectScreen()
+    ColorSelectScreen(color = Color.Cyan)
 }
