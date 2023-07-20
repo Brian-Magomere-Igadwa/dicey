@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import design.fiti.dicey.ui.ColorSelectScreen
 import design.fiti.dicey.ui.DiceyViewModel
+import design.fiti.dicey.ui.ThemedScreen
 
 
 enum class Routes(
@@ -40,7 +42,7 @@ enum class Routes(
 fun AppBar(title: String, navigateUp: () -> Unit, canNavigate: Boolean, color: Color) {
     CenterAlignedTopAppBar(
         title = { Text(text = title) },
-        modifier = Modifier.background(color),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = color),
         navigationIcon = {
             if (canNavigate) {
                 IconButton(onClick = { navigateUp }) {
@@ -87,11 +89,12 @@ fun DiceyApp(
             composable(route = Routes.ColorSelectScreen.name) {
                 ColorSelectScreen(
                     randomizeColor = { viewModel.randomizeColor() },
-                    color = uiState.currentColor
+                    color = uiState.currentColor,
+                    navigateNext = { navController.navigate(Routes.ThemedScreen.name) }
                 )
             }
             composable(route = Routes.ThemedScreen.name) {
-
+                ThemedScreen(color = uiState.currentColor)
             }
         }
     }

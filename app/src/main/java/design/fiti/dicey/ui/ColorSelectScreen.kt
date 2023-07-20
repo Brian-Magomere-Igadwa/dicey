@@ -24,7 +24,8 @@ import design.fiti.dicey.R
 fun ColorSelectScreen(
     modifier: Modifier = Modifier,
     randomizeColor: () -> Unit = {},
-    color: Color
+    color: Color,
+    navigateNext: () -> Unit = {}
 ) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
@@ -39,7 +40,7 @@ fun ColorSelectScreen(
                     .clickable { randomizeColor() }
             )
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navigateNext() }) {
                 Text(text = stringResource(R.string.next))
             }
 
