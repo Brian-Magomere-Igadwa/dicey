@@ -1,6 +1,7 @@
 package design.fiti.dicey
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -10,10 +11,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -21,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import design.fiti.dicey.ui.ColorSelectScreen
 import design.fiti.dicey.ui.DiceyViewModel
 
 
@@ -33,9 +37,10 @@ enum class Routes(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String, navigateUp: () -> Unit, canNavigate: Boolean) {
+fun AppBar(title: String, navigateUp: () -> Unit, canNavigate: Boolean, color: Color) {
     CenterAlignedTopAppBar(
         title = { Text(text = title) },
+        modifier = Modifier.background(color),
         navigationIcon = {
             if (canNavigate) {
                 IconButton(onClick = { navigateUp }) {
@@ -62,14 +67,17 @@ fun DiceyApp(
         backStack?.destination?.route ?: Routes.ColorSelectScreen.name
     )
 
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(modifier = modifier, topBar = {
         AppBar(
             title = currentScreen.name,
             navigateUp = { navController.navigateUp() },
-            canNavigate = navController.previousBackStackEntry != null
+            canNavigate = navController.previousBackStackEntry != null,
+            color = uiState.currentColor
         )
     }) { innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
+
 
         NavHost(
             navController = navController,
@@ -77,7 +85,10 @@ fun DiceyApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = Routes.ColorSelectScreen.name) {
-
+                ColorSelectScreen(
+                    randomizeColor = { viewModel.randomizeColor() },
+                    color = uiState.currentColor
+                )
             }
             composable(route = Routes.ThemedScreen.name) {
 
