@@ -45,7 +45,7 @@ fun AppBar(title: String, navigateUp: () -> Unit, canNavigate: Boolean, color: C
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = color),
         navigationIcon = {
             if (canNavigate) {
-                IconButton(onClick = { navigateUp }) {
+                IconButton(onClick = { navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back_button)
