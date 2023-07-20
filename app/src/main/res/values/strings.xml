@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">dicey</string>
+    <string name="themed_screen">Theme Activated</string>
+    <string name="color_select_screen">Click Box</string>
+    <string name="back_button">up button</string>
 </resources>
