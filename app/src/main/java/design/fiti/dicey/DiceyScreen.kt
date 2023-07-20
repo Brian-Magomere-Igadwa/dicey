@@ -11,14 +11,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import design.fiti.dicey.ui.DiceyViewModel
 
 
 enum class Routes(
@@ -51,6 +54,7 @@ fun AppBar(title: String, navigateUp: () -> Unit, canNavigate: Boolean) {
 @Composable
 fun DiceyApp(
     modifier: Modifier = Modifier,
+    viewModel: DiceyViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStack by navController.currentBackStackEntryAsState()
@@ -65,6 +69,8 @@ fun DiceyApp(
             canNavigate = navController.previousBackStackEntry != null
         )
     }) { innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
+
         NavHost(
             navController = navController,
             startDestination = Routes.ColorSelectScreen.name,
